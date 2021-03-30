@@ -1,0 +1,28 @@
+syntax="proto3";
+option java_multiple_files=true;
+option java_package="com.grpc.lab1";
+
+
+message AddRequest{
+    repeated int32 a = 1;
+    repeated int32 b = 2;
+}
+
+message AddReply{
+    repeated int32 c = 3;
+}
+
+message MultRequest{
+    repeated int32 a = 1;
+    repeated int32 b = 2;
+}
+
+message MultReply{
+    repeated int32 c = 3;
+}
+
+
+service CalculatorService{
+    rpc Add(AddRequest) returns (AddReply){}
+    rpc Mult(MultRequest) returns (MultReply){}
+}
