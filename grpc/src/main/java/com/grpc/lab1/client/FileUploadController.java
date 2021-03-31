@@ -49,7 +49,7 @@ public class FileUploadController {
     String ip6 = "3.91.63.183";
     String ip7 = "44.192.24.144";
     String ip8 = "3.239.113.196";
-    String ip9 = ""
+    String ip9 = "";
 
 	@Autowired
 	public FileUploadController(StorageService storageService) {
@@ -147,7 +147,7 @@ public class FileUploadController {
         CalculatorServiceGrpc.CalculatorServiceStub stub6 = CalculatorServiceGrpc.newStub(channel6);
         CalculatorServiceGrpc.CalculatorServiceStub stub7 = CalculatorServiceGrpc.newStub(channel7);
         CalculatorServiceGrpc.CalculatorServiceStub stub8 = CalculatorServiceGrpc.newStub(channel8);
-        CalculatorServiceStub.CalculatorServiceBlockingStub stub9 = CalculatorServiceBlockingStub.newStub(channel9)
+        CalculatorServiceStub.CalculatorServiceBlockingStub stub9 = CalculatorServiceBlockingStub.newStub(channel9);
 
         long timeDeadline = Long.parseLong(deadline);
 
@@ -175,7 +175,7 @@ public class FileUploadController {
     //Calculations
 
     public static int[][] multiplyMatrixBlock(int A[][], int B[][],
-                                            CalculatorServiceGrpc.CalculatorServiceBlockingStub stub1
+                                            CalculatorServiceGrpc.CalculatorServiceBlockingStub stub1,
                                             CalculatorServiceGrpc.CalculatorServiceBlockingStub stub2,
                                             CalculatorServiceGrpc.CalculatorServiceBlockingStub stub3,
                                             CalculatorServiceGrpc.CalculatorServiceBlockingStub stub4,

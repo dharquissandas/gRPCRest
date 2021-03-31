@@ -6,6 +6,6 @@ import io.grpc.stub.StreamObserver;
 public class OutputStreamObserver implements StreamObserver<MultReply> {
     @Override
     public void onNext(MultReply multreply){
-        System.out.println("Recieved: " + multreply)
+        System.out.println("Recieved: " + multreply);
     }
 }
