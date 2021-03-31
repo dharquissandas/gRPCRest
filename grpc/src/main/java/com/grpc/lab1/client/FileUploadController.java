@@ -22,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.grpc.lab1.client.storage.StorageFileNotFoundException;
 import com.grpc.lab1.client.storage.StorageService;
 
+import com.grpc.lab1.client.OutputStreamObserver;
 import com.grpc.lab1.AddRequest;
 import com.grpc.lab1.AddReply;
 import com.grpc.lab1.MultRequest;
@@ -41,15 +42,15 @@ public class FileUploadController {
     int dim;
     int dim1;
 
-    String ip1 = "3.209.82.139";
-    String ip2 = "3.237.28.149";
-    String ip3 = "44.192.66.25";
-    String ip4 = "34.237.53.26";
-    String ip5 = "35.168.113.128";
-    String ip6 = "3.91.63.183";
-    String ip7 = "44.192.24.144";
-    String ip8 = "3.239.113.196";
-    String ip9 = "";
+    String ip1 = "ec2-34-232-63-53.compute-1.amazonaws.com";
+    String ip2 = "ec2-35-175-120-148.compute-1.amazonaws.com";
+    String ip3 = "ec2-3-238-235-213.compute-1.amazonaws.com";
+    String ip4 = "ec2-35-175-187-28.compute-1.amazonaws.com";
+    String ip5 = "ec2-3-239-55-235.compute-1.amazonaws.com";
+    String ip6 = "ec2-34-204-174-175.compute-1.amazonaws.com";
+    String ip7 = "ec2-3-236-124-160.compute-1.amazonaws.com";
+    String ip8 = "ec2-54-157-174-106.compute-1.amazonaws.com";
+    String ip9 = "ec2-3-85-54-130.compute-1.amazonaws.com";
 
 	@Autowired
 	public FileUploadController(StorageService storageService) {
@@ -147,7 +148,7 @@ public class FileUploadController {
         CalculatorServiceGrpc.CalculatorServiceStub stub6 = CalculatorServiceGrpc.newStub(channel6);
         CalculatorServiceGrpc.CalculatorServiceStub stub7 = CalculatorServiceGrpc.newStub(channel7);
         CalculatorServiceGrpc.CalculatorServiceStub stub8 = CalculatorServiceGrpc.newStub(channel8);
-        CalculatorServiceStub.CalculatorServiceBlockingStub stub9 = CalculatorServiceBlockingStub.newStub(channel9);
+        CalculatorServiceStub.CalculatorServiceBlockingStub stub9 = CalculatorServiceBlockingStub.newBlockingStub(channel9);
 
         long timeDeadline = Long.parseLong(deadline);
 
@@ -223,7 +224,7 @@ public class FileUploadController {
     {
         int MAX = A.length;
         if(MAX == 2){
-            List<Integer> Ap = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(A)).addAllB(convToDim(B)).build()).getCList();
+            List<Integer> Ap = stub9.mult(MultRequest.newBuilder().addAllA(convToDim(A)).addAllB(convToDim(B)).build()).getCList();
             return convToMat(Ap);
         }
         else{
@@ -240,7 +241,7 @@ public class FileUploadController {
             List<Integer> D3p1 = new ArrayList<Integer>();
             List<Integer> D3p2 = new ArrayList<Integer>();
             long startTime = System.nanoTime();
-            A3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(0))).build()).getCList();
+            A3p1 = stub1.mult((MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(0))).build()), new OutputStreamObserver()).getCList();
             while(true){if(!A3p1.isEmpty()){break;}}
             long endTime = System.nanoTime();
             long footprint = endTime-startTime;
@@ -249,76 +250,76 @@ public class FileUploadController {
             System.out.println(numberServer);
             switch(numberServer){
                 case 1:
-                    A3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    B3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    B3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
-                    C3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build()).getCList();
-                    C3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    D3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    D3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
+                    A3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    B3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    B3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
+                    C3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build(), new OutputStreamObserver()).getCList();
+                    C3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    D3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    D3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
                     break;
                 case 2:
-                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    B3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    B3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
-                    C3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build()).getCList();
-                    C3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    D3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    D3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
+                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    B3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    B3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
+                    C3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build(), new OutputStreamObserver()).getCList();
+                    C3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    D3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    D3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
                     break;
                 case 3:
-                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    B3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    B3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
-                    C3p1 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build()).getCList();
-                    C3p2 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    D3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    D3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
+                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    B3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    B3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
+                    C3p1 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build(), new OutputStreamObserver()).getCList();
+                    C3p2 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    D3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    D3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
                     break;
                 case 4:
-                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    B3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    B3p2 = stub4.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
-                    C3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build()).getCList();
-                    C3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    D3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    D3p2 = stub4.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
+                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    B3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    B3p2 = stub4.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
+                    C3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build(), new OutputStreamObserver()).getCList();
+                    C3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    D3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    D3p2 = stub4.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
                     break;
                 case 5:
-                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    B3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    B3p2 = stub4.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
-                    C3p1 = stub5.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build()).getCList();
-                    C3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    D3p1 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    D3p2 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
+                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    B3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    B3p2 = stub4.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
+                    C3p1 = stub5.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build(), new OutputStreamObserver()).getCList();
+                    C3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    D3p1 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    D3p2 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
                     break;
                 case 6:
-                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    B3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    B3p2 = stub4.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
-                    C3p1 = stub5.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build()).getCList();
-                    C3p2 = stub6.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    D3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    D3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
+                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    B3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    B3p2 = stub4.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
+                    C3p1 = stub5.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build(), new OutputStreamObserver()).getCList();
+                    C3p2 = stub6.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    D3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    D3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
                     break;
                 case 7:
-                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    B3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    B3p2 = stub4.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
-                    C3p1 = stub5.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build()).getCList();
-                    C3p2 = stub6.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    D3p1 = stub7.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    D3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
+                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    B3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    B3p2 = stub4.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
+                    C3p1 = stub5.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build(), new OutputStreamObserver()).getCList();
+                    C3p2 = stub6.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    D3p1 = stub7.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    D3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
                     break;
                 case 8:
-                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    B3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    B3p2 = stub4.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
-                    C3p1 = stub5.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build()).getCList();
-                    C3p2 = stub6.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
-                    D3p1 = stub7.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build()).getCList();
-                    D3p2 = stub8.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build()).getCList();
+                    A3p2 = stub2.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    B3p1 = stub3.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    B3p2 = stub4.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
+                    C3p1 = stub5.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(0))).build(), new OutputStreamObserver()).getCList();
+                    C3p2 = stub6.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(2))).build(), new OutputStreamObserver()).getCList();
+                    D3p1 = stub7.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(2))).addAllB(convToDim(bblocks.get(1))).build(), new OutputStreamObserver()).getCList();
+                    D3p2 = stub8.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(3))).addAllB(convToDim(bblocks.get(3))).build(), new OutputStreamObserver()).getCList();
                     break;
                 default:
                     System.out.println("Not Enough Servers to compute");
