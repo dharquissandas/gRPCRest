@@ -49,6 +49,7 @@ public class FileUploadController {
     String ip6 = "3.91.63.183";
     String ip7 = "44.192.24.144";
     String ip8 = "3.239.113.196";
+    String ip9 = ""
 
 	@Autowired
 	public FileUploadController(StorageService storageService) {
@@ -76,7 +77,7 @@ public class FileUploadController {
         String[] matrixarray1 = content1.split("\\s+");
         dim1 = (int) Math.round(Math.sqrt(matrixarray1.length));
 
-        if(checkValidMat(matrixarray.length) && checkValidMat(matrixarray1.length && dim1 == dim2)){
+        if(checkValidMat(matrixarray.length) && checkValidMat(matrixarray1.length) && dim1 == dim){
             matone = filetoMat(file);
             mattwo = filetoMat(file1);
             redirectAttributes.addFlashAttribute("message",
@@ -136,19 +137,21 @@ public class FileUploadController {
         ManagedChannel channel6 = ManagedChannelBuilder.forAddress(ip6, 8081).usePlaintext().build();
         ManagedChannel channel7 = ManagedChannelBuilder.forAddress(ip7, 8081).usePlaintext().build();
         ManagedChannel channel8 = ManagedChannelBuilder.forAddress(ip8, 8081).usePlaintext().build();
+        ManagedChannel channel9 = ManagedChannelBuilder.forAddress(ip9, 8081).usePlaintext().build(); 
 
-        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub1 = CalculatorServiceGrpc.newBlockingStub(channel1);
-        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub2 = CalculatorServiceGrpc.newBlockingStub(channel2);
-        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub3 = CalculatorServiceGrpc.newBlockingStub(channel3);
-        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub4 = CalculatorServiceGrpc.newBlockingStub(channel4);
-        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub5 = CalculatorServiceGrpc.newBlockingStub(channel5);
-        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub6 = CalculatorServiceGrpc.newBlockingStub(channel6);
-        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub7 = CalculatorServiceGrpc.newBlockingStub(channel7);
-        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub8 = CalculatorServiceGrpc.newBlockingStub(channel8);
+        CalculatorServiceGrpc.CalculatorServiceStub stub1 = CalculatorServiceGrpc.newStub(channel1);
+        CalculatorServiceGrpc.CalculatorServiceStub stub2 = CalculatorServiceGrpc.newStub(channel2);
+        CalculatorServiceGrpc.CalculatorServiceStub stub3 = CalculatorServiceGrpc.newStub(channel3);
+        CalculatorServiceGrpc.CalculatorServiceStub stub4 = CalculatorServiceGrpc.newStub(channel4);
+        CalculatorServiceGrpc.CalculatorServiceStub stub5 = CalculatorServiceGrpc.newStub(channel5);
+        CalculatorServiceGrpc.CalculatorServiceStub stub6 = CalculatorServiceGrpc.newStub(channel6);
+        CalculatorServiceGrpc.CalculatorServiceStub stub7 = CalculatorServiceGrpc.newStub(channel7);
+        CalculatorServiceGrpc.CalculatorServiceStub stub8 = CalculatorServiceGrpc.newStub(channel8);
+        CalculatorServiceStub.CalculatorServiceBlockingStub stub9 = CalculatorServiceBlockingStub.newStub(channel9)
 
         long timeDeadline = Long.parseLong(deadline);
 
-        int[][] ans = multiplyMatrixBlockDeadline(matone,mattwo,timeDeadline,stub1,stub2, stub3, stub4, stub5, stub6, stub7, stub8);
+        int[][] ans = multiplyMatrixBlockDeadline(matone,mattwo,timeDeadline,stub1,stub2, stub3, stub4, stub5, stub6, stub7, stub8, stub9);
 
         channel1.shutdown();
         channel2.shutdown();
@@ -158,6 +161,7 @@ public class FileUploadController {
         channel6.shutdown();
         channel7.shutdown();
         channel8.shutdown();
+        channel9.shutdown();
 
         if(ans.length==0){
             model.addAttribute("error", "Not enough servers to achieve deadline");
@@ -206,14 +210,15 @@ public class FileUploadController {
     }
 
     public static int[][] multiplyMatrixBlockDeadline(int A[][], int B[][], long deadline,
-                                            CalculatorServiceGrpc.CalculatorServiceBlockingStub stub1,
-                                            CalculatorServiceGrpc.CalculatorServiceBlockingStub stub2,
-                                            CalculatorServiceGrpc.CalculatorServiceBlockingStub stub3,
-                                            CalculatorServiceGrpc.CalculatorServiceBlockingStub stub4,
-                                            CalculatorServiceGrpc.CalculatorServiceBlockingStub stub5,
-                                            CalculatorServiceGrpc.CalculatorServiceBlockingStub stub6,
-                                            CalculatorServiceGrpc.CalculatorServiceBlockingStub stub7,
-                                            CalculatorServiceGrpc.CalculatorServiceBlockingStub stub8
+                                            CalculatorServiceGrpc.CalculatorServiceStub stub1,
+                                            CalculatorServiceGrpc.CalculatorServiceStub stub2,
+                                            CalculatorServiceGrpc.CalculatorServiceStub stub3,
+                                            CalculatorServiceGrpc.CalculatorServiceStub stub4,
+                                            CalculatorServiceGrpc.CalculatorServiceStub stub5,
+                                            CalculatorServiceGrpc.CalculatorServiceStub stub6,
+                                            CalculatorServiceGrpc.CalculatorServiceStub stub7,
+                                            CalculatorServiceGrpc.CalculatorServiceStub stub8,
+                                            CalculatorServiceGrpc.CalculatorServiceBlockingStub stub9
                                             )
     {
         int MAX = A.length;
@@ -226,6 +231,7 @@ public class FileUploadController {
             int numBlockCalls = 8;
             ArrayList<int[][]> ablocks = getBlocks(A);
             ArrayList<int[][]> bblocks = getBlocks(B);
+            List<Integer> A3p1 = new ArrayList<Integer>();
             List<Integer> A3p2 = new ArrayList<Integer>();
             List<Integer> B3p1 = new ArrayList<Integer>();
             List<Integer> B3p2 = new ArrayList<Integer>();
@@ -234,7 +240,8 @@ public class FileUploadController {
             List<Integer> D3p1 = new ArrayList<Integer>();
             List<Integer> D3p2 = new ArrayList<Integer>();
             long startTime = System.nanoTime();
-            List<Integer> A3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(0))).build()).getCList();
+            A3p1 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(0))).addAllB(convToDim(bblocks.get(0))).build()).getCList();
+            while(true){if(!A3p1.isEmpty()){break;}}
             long endTime = System.nanoTime();
             long footprint = endTime-startTime;
             int numberServer = (int) Math.round((footprint*numBlockCalls)/deadline);
@@ -317,11 +324,11 @@ public class FileUploadController {
                     System.out.println("Not Enough Servers to compute");
                     return new int[0][0];
             }
-
-            int[][] A3 = convToMat(stub1.add(AddRequest.newBuilder().addAllA(A3p1).addAllB(A3p2).build()).getCList());
-            int[][] B3 = convToMat(stub1.add(AddRequest.newBuilder().addAllA(B3p1).addAllB(B3p2).build()).getCList());
-            int[][] C3 = convToMat(stub1.add(AddRequest.newBuilder().addAllA(C3p1).addAllB(C3p2).build()).getCList());
-            int[][] D3 = convToMat(stub1.add(AddRequest.newBuilder().addAllA(D3p1).addAllB(D3p2).build()).getCList());
+            while(true){if(!A3p1.isEmpty() && !A3p2.isEmpty() && !B3p1.isEmpty() && !B3p2.isEmpty() && !C3p1.isEmpty() && !C3p2.isEmpty() && !D3p1.isEmpty() && !D3p2.isEmpty()){break;}}
+            int[][] A3 = convToMat(stub9.add(AddRequest.newBuilder().addAllA(A3p1).addAllB(A3p2).build()).getCList());
+            int[][] B3 = convToMat(stub9.add(AddRequest.newBuilder().addAllA(B3p1).addAllB(B3p2).build()).getCList());
+            int[][] C3 = convToMat(stub9.add(AddRequest.newBuilder().addAllA(C3p1).addAllB(C3p2).build()).getCList());
+            int[][] D3 = convToMat(stub9.add(AddRequest.newBuilder().addAllA(D3p1).addAllB(D3p2).build()).getCList());
 
             return resCalc(A3, B3, C3, D3, MAX, bSize);
         }
