@@ -44,6 +44,7 @@ com/grpc/lab1/CalculatorServiceGrpc$CalculatorServiceFutureStub.class
 com/baeldung/grpc/HelloResponse.class
 com/grpc/lab1/AddReply$Builder.class
 com/grpc/lab1/AddReply.class
+com/grpc/lab1/client/Calculations.class
 com/grpc/lab1/MultRequest$Builder.class
 com/grpc/lab1/CalculatorServiceGrpc$CalculatorServiceImplBase.class
 com/grpc/lab1/CalculatorServiceGrpc$1.class
