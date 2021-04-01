@@ -51,32 +51,13 @@ public class FileUploadController {
     String ip7 = "3.236.23.111";
     String ip8 = "3.227.239.84";
 
-    ManagedChannel channel1 = ManagedChannelBuilder.forAddress(ip1, 8081).usePlaintext().build();
-    ManagedChannel channel2 = ManagedChannelBuilder.forAddress(ip2, 8081).usePlaintext().build();
-    ManagedChannel channel3 = ManagedChannelBuilder.forAddress(ip3, 8081).usePlaintext().build();
-    ManagedChannel channel4 = ManagedChannelBuilder.forAddress(ip4, 8081).usePlaintext().build();
-    ManagedChannel channel5 = ManagedChannelBuilder.forAddress(ip5, 8081).usePlaintext().build();
-    ManagedChannel channel6 = ManagedChannelBuilder.forAddress(ip6, 8081).usePlaintext().build();
-    ManagedChannel channel7 = ManagedChannelBuilder.forAddress(ip7, 8081).usePlaintext().build();
-    ManagedChannel channel8 = ManagedChannelBuilder.forAddress(ip8, 8081).usePlaintext().build();
-
-    CalculatorServiceGrpc.CalculatorServiceBlockingStub stub1 = CalculatorServiceGrpc.newBlockingStub(channel1);
-    CalculatorServiceGrpc.CalculatorServiceBlockingStub stub2 = CalculatorServiceGrpc.newBlockingStub(channel2);
-    CalculatorServiceGrpc.CalculatorServiceBlockingStub stub3 = CalculatorServiceGrpc.newBlockingStub(channel3);
-    CalculatorServiceGrpc.CalculatorServiceBlockingStub stub4 = CalculatorServiceGrpc.newBlockingStub(channel4);
-    CalculatorServiceGrpc.CalculatorServiceBlockingStub stub5 = CalculatorServiceGrpc.newBlockingStub(channel5);
-    CalculatorServiceGrpc.CalculatorServiceBlockingStub stub6 = CalculatorServiceGrpc.newBlockingStub(channel6);
-    CalculatorServiceGrpc.CalculatorServiceBlockingStub stub7 = CalculatorServiceGrpc.newBlockingStub(channel7);
-    CalculatorServiceGrpc.CalculatorServiceBlockingStub stub8 = CalculatorServiceGrpc.newBlockingStub(channel8);
-
-
 	@Autowired
 	public FileUploadController(StorageService storageService) {
 		this.storageService = storageService;
 	}
 
 	@GetMapping("/")
-	public String listUploadedFiles(Model model) throws IOException {
+	public String listUploadedFiles(Model model) throws IOException {   
 
 		model.addAttribute("files", storageService.loadAll().map(
 				path -> MvcUriComponentsBuilder.fromMethodName(FileUploadController.class,
@@ -112,6 +93,24 @@ public class FileUploadController {
 
     @GetMapping("/calculate")
 	public String handlecalculate(Model model){
+        ManagedChannel channel1 = ManagedChannelBuilder.forAddress(ip1, 8081).usePlaintext().build();
+        ManagedChannel channel2 = ManagedChannelBuilder.forAddress(ip2, 8081).usePlaintext().build();
+        ManagedChannel channel3 = ManagedChannelBuilder.forAddress(ip3, 8081).usePlaintext().build();
+        ManagedChannel channel4 = ManagedChannelBuilder.forAddress(ip4, 8081).usePlaintext().build();
+        ManagedChannel channel5 = ManagedChannelBuilder.forAddress(ip5, 8081).usePlaintext().build();
+        ManagedChannel channel6 = ManagedChannelBuilder.forAddress(ip6, 8081).usePlaintext().build();
+        ManagedChannel channel7 = ManagedChannelBuilder.forAddress(ip7, 8081).usePlaintext().build();
+        ManagedChannel channel8 = ManagedChannelBuilder.forAddress(ip8, 8081).usePlaintext().build();
+
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub1 = CalculatorServiceGrpc.newBlockingStub(channel1);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub2 = CalculatorServiceGrpc.newBlockingStub(channel2);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub3 = CalculatorServiceGrpc.newBlockingStub(channel3);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub4 = CalculatorServiceGrpc.newBlockingStub(channel4);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub5 = CalculatorServiceGrpc.newBlockingStub(channel5);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub6 = CalculatorServiceGrpc.newBlockingStub(channel6);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub7 = CalculatorServiceGrpc.newBlockingStub(channel7);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub8 = CalculatorServiceGrpc.newBlockingStub(channel8);
+
         int[][] ans = Calculations.multiplyMatrixBlock(matone,mattwo,stub1, stub2, stub3, stub4, stub5, stub6, stub7, stub8);
 
         channel1.shutdown();
@@ -129,6 +128,23 @@ public class FileUploadController {
 
     @GetMapping("/deadlineCalculate")
 	public String handleDeadlineCalculate(Model model, @RequestParam(value="deadline", defaultValue="") String deadline){
+        ManagedChannel channel1 = ManagedChannelBuilder.forAddress(ip1, 8081).usePlaintext().build();
+        ManagedChannel channel2 = ManagedChannelBuilder.forAddress(ip2, 8081).usePlaintext().build();
+        ManagedChannel channel3 = ManagedChannelBuilder.forAddress(ip3, 8081).usePlaintext().build();
+        ManagedChannel channel4 = ManagedChannelBuilder.forAddress(ip4, 8081).usePlaintext().build();
+        ManagedChannel channel5 = ManagedChannelBuilder.forAddress(ip5, 8081).usePlaintext().build();
+        ManagedChannel channel6 = ManagedChannelBuilder.forAddress(ip6, 8081).usePlaintext().build();
+        ManagedChannel channel7 = ManagedChannelBuilder.forAddress(ip7, 8081).usePlaintext().build();
+        ManagedChannel channel8 = ManagedChannelBuilder.forAddress(ip8, 8081).usePlaintext().build();
+
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub1 = CalculatorServiceGrpc.newBlockingStub(channel1);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub2 = CalculatorServiceGrpc.newBlockingStub(channel2);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub3 = CalculatorServiceGrpc.newBlockingStub(channel3);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub4 = CalculatorServiceGrpc.newBlockingStub(channel4);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub5 = CalculatorServiceGrpc.newBlockingStub(channel5);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub6 = CalculatorServiceGrpc.newBlockingStub(channel6);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub7 = CalculatorServiceGrpc.newBlockingStub(channel7);
+        CalculatorServiceGrpc.CalculatorServiceBlockingStub stub8 = CalculatorServiceGrpc.newBlockingStub(channel8);
         long timeDeadline = Long.parseLong(deadline);
         
         int[][] ans = Calculations.multiplyMatrixBlockDeadline(matone,mattwo,timeDeadline,stub1,stub2, stub3, stub4, stub5, stub6, stub7, stub8);
