@@ -36,7 +36,6 @@ com/baeldung/grpc/HelloServiceGrpc$HelloServiceDescriptorSupplier.class
 com/grpc/lab1/client/storage/FileSystemStorageService.class
 com/baeldung/grpc/HelloRequest$1.class
 com/grpc/lab1/server/CalculatorServiceImpl.class
-com/grpc/lab1/client/GrpcClient.class
 com/baeldung/grpc/HelloServiceOuterClass$1.class
 com/baeldung/grpc/HelloRequestOrBuilder.class
 com/grpc/lab1/CalculatorServiceGrpc$MethodHandlers.class
@@ -52,3 +51,4 @@ com/baeldung/grpc/HelloRequest.class
 com/grpc/lab1/client/storage/StorageProperties.class
 com/grpc/lab1/MultReply$Builder.class
 com/baeldung/grpc/HelloResponse$1.class
+com/grpc/lab1/client/StubProcessor.class

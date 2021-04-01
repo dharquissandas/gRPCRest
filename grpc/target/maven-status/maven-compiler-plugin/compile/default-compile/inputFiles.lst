@@ -1,7 +1,6 @@
 /home/deep/cw2/grpc/src/main/java/com/grpc/lab1/client/storage/StorageService.java
 /home/deep/cw2/grpc/target/generated-sources/protobuf/java/com/grpc/lab1/AddRequest.java
 /home/deep/cw2/grpc/target/generated-sources/protobuf/grpc-java/com/grpc/lab1/CalculatorServiceGrpc.java
-/home/deep/cw2/grpc/src/main/java/com/grpc/lab1/client/GrpcClient.java
 /home/deep/cw2/grpc/target/generated-sources/protobuf/java/com/baeldung/grpc/HelloServiceOuterClass.java
 /home/deep/cw2/grpc/target/generated-sources/protobuf/java/com/grpc/lab1/MultRequest.java
 /home/deep/cw2/grpc/src/main/java/com/grpc/lab1/client/storage/StorageProperties.java
@@ -19,6 +18,7 @@
 /home/deep/cw2/grpc/src/main/java/com/grpc/lab1/client/storage/StorageException.java
 /home/deep/cw2/grpc/target/generated-sources/protobuf/java/com/grpc/lab1/MultRequestOrBuilder.java
 /home/deep/cw2/grpc/src/main/java/com/grpc/lab1/client/UploadingFilesApplication.java
+/home/deep/cw2/grpc/src/main/java/com/grpc/lab1/client/StubProcessor.java
 /home/deep/cw2/grpc/target/generated-sources/protobuf/java/com/grpc/lab1/MultReplyOrBuilder.java
 /home/deep/cw2/grpc/target/generated-sources/protobuf/grpc-java/com/baeldung/grpc/HelloServiceGrpc.java
 /home/deep/cw2/grpc/target/generated-sources/protobuf/java/com/grpc/lab1/AddReplyOrBuilder.java
