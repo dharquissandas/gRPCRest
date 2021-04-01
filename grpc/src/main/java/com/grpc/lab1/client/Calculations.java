@@ -89,9 +89,8 @@ class Calculations{
             long endTime = System.nanoTime();
             long footprint = endTime-startTime;
             int numberServer = (int) Math.round((footprint*numBlockCalls)/deadline);
-
-            System.out.println(footprint);
-            System.out.println(numberServer);
+            if(numberServer < 0){numberServer = 1;}
+            System.out.println("Number of Servers Needed:" + numberServer);
             switch(numberServer){
                 case 1:
                     A3p2 = stub1.mult(MultRequest.newBuilder().addAllA(convToDim(ablocks.get(1))).addAllB(convToDim(bblocks.get(2))).build()).getCList();
