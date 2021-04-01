@@ -167,7 +167,7 @@ public class FileUploadController {
         return "calculate";
 	}
 
-
+    // Convert User File to Matrix
     public int[][] filetoMat(MultipartFile file) throws IOException{
         String content = new String(file.getBytes());
         String[] matrixarray = content.split("\\s+");
@@ -182,6 +182,7 @@ public class FileUploadController {
         return B;
     }
 
+    // Convert Matrix to String for REST
     public String[] convToString(int[][] ans){
         String[] answer = new String[dim];
         String line = "";
@@ -195,10 +196,12 @@ public class FileUploadController {
         return answer;
     }
 
+    // Check Acceptable Matrix 
     public static Boolean checkValidMat(int dim){
           return (dim != 0) && ((dim & (dim - 1)) == 0);
     }
 
+    // File-Upload & Storage Exception
 	@ExceptionHandler(StorageFileNotFoundException.class)
 	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
 		return ResponseEntity.notFound().build();

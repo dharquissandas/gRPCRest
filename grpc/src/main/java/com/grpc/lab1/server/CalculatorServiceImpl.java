@@ -46,6 +46,7 @@ public class CalculatorServiceImpl extends CalculatorServiceImplBase{
         reply.onCompleted();
     }
 
+    // Convert Matrix to List
     public static List<Integer> convToDim(int[][] mat){
         List<Integer> B = new ArrayList<Integer>();
         for(int i=0; i<mat.length; i++) {
@@ -56,6 +57,7 @@ public class CalculatorServiceImpl extends CalculatorServiceImplBase{
         return B;
     }
 
+    // Convert List to Matrix
     public static int[][] convToMat(List<Integer> a){
         int dim = (int) Math.round(Math.sqrt(a.size()));
         int B[][] = new int[dim][dim];

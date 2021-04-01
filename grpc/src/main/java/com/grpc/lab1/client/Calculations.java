@@ -204,6 +204,7 @@ class Calculations{
         }
     }
 
+    // Calculate and Return Blocks For Any Supported Matrix
     public static ArrayList<int[][]> getBlocks(int mat[][]){
         int dim = mat[0].length;
         int blockdim = dim/2;
@@ -222,6 +223,7 @@ class Calculations{
         return blocks;
     }
 
+    // Aggregate blocks for Final Answer
     public static int[][] resCalc(int[][] A3, int[][] B3, int[][] C3, int[][] D3, int MAX, int bSize){
         int[][] res= new int[MAX][MAX];
 
@@ -252,6 +254,7 @@ class Calculations{
         return res;
     }
 
+    // Convert Matrix to List
     public static List<Integer> convToDim(int[][] mat){
         List<Integer> B = new ArrayList<Integer>();
         for(int i=0; i<mat.length; i++) {
@@ -262,6 +265,7 @@ class Calculations{
         return B;
     }
 
+    // Convert List to Matrix
     public static int[][] convToMat(List<Integer> a){
         int dim = (int) Math.round(Math.sqrt(a.size()));
         int B[][] = new int[dim][dim];

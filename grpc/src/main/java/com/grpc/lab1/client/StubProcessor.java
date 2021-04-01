@@ -9,7 +9,7 @@ import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import java.util.concurrent.*;
 
-
+// Callable Interface Adaption for Thread Process
 class StubProcessor implements Callable<MultReply> {
     private CalculatorServiceGrpc.CalculatorServiceBlockingStub stub;
     private MultRequest request;
