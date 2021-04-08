@@ -42,14 +42,14 @@ public class FileUploadController {
     int dim;
     int dim1;
 
-    String ip1 = "100.26.136.59";
-    String ip2 = "34.232.67.185";
-    String ip3 = "3.239.48.109";
-    String ip4 = "3.236.109.75";
-    String ip5 = "3.236.125.83";
-    String ip6 = "3.239.4.116";
-    String ip7 = "34.204.200.114";
-    String ip8 = "3.238.72.142";
+    String ip1 = "100.25.132.178";
+    String ip2 = "100.24.255.74";
+    String ip3 = "18.206.214.250";
+    String ip4 = "3.237.3.1";
+    String ip5 = "3.235.222.235";
+    String ip6 = "3.233.219.208";
+    String ip7 = "18.205.109.54";
+    String ip8 = "100.26.180.31";
 
 	@Autowired
 	public FileUploadController(StorageService storageService) {
